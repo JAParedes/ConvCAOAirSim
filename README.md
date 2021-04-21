@@ -1,6 +1,8 @@
 # Autonomous and cooperative design of the monitor positions for a team of UAVs to maximize the quantity and quality of detected objects (VAN2V: Team 11 Implementation)#
 
-This code is a modification of the code in https://github.com/dimikout3/ConvCAOAirSim presented in for the VNA2V class. Only small modifications were made to the present code. This repository is maintained by Juan Paredes, Steven Hong, Brian Lai, and Vishnu Chipade.
+This code is a modification of the code in https://github.com/dimikout3/ConvCAOAirSim presented in for the VNA2V class. Only small modifications were made to the present code. 
+
+This repository is maintained by Juan Paredes, Steven Hong, Brian Lai, and Vishnu Chipade.
  
 # Installation (VNA2V: appConvergence only)#
 
