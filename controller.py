@@ -193,20 +193,34 @@ class controller:
         for _ in range(IMAGES_TRIES):
 
             try:
+                #print("\nTaking initial photos21")
                 responses = self.client.simGetImages([
                     airsim.ImageRequest("0", airsim.ImageType.DepthPerspective, True),  #depth visualization image
                     airsim.ImageRequest("0", airsim.ImageType.Scene, False, False),
                     airsim.ImageRequest("1", airsim.ImageType.DepthPerspective, True),
                     airsim.ImageRequest("4", airsim.ImageType.DepthPerspective, True)],
+                    #airsim.ImageRequest("0", airsim.ImageType.DepthVis, True),  #depth visualization image
+                    #airsim.ImageRequest("0", airsim.ImageType.Scene, False, False),
+                    #airsim.ImageRequest("1", airsim.ImageType.DepthVis, True),
+                    #airsim.ImageRequest("4", airsim.ImageType.DepthVis, True)],
+                    #airsim.ImageRequest("front_center_custom", airsim.ImageType.DepthPerspective, True),  #depth visualization image
+                    #airsim.ImageRequest("front_center_custom", airsim.ImageType.Scene, False, False),
+                    #airsim.ImageRequest("front_right_custom", airsim.ImageType.DepthPerspective, True),
+                    #airsim.ImageRequest("back_center_custom", airsim.ImageType.DepthPerspective, True)],
                     vehicle_name = self.name)  #scene vision image in uncompressed RGB array
+                #print("\nTaking initial photos22")
 
                 img1d = np.frombuffer(responses[1].image_data_uint8, dtype=np.uint8) #get numpy array
+                #print("\nTaking initial photos23")
                 if os.name=='nt':
                     img_rgb = img1d.reshape(responses[1].height, responses[1].width, 3) #reshape array to 3 channel image array H X W X 3
                 else:
-                    img_rgb = img1d.reshape(responses[1].height, responses[1].width, 4) #reshape array to 3 channel image array H X W X 3
+                    img_rgb = img1d.reshape(responses[1].height, responses[1].width, 3) #reshape array to 3 channel image array H X W X 3
+                    #print("\nTaking initial photos24")
                     img_rgb = img_rgb[:,:,0:3]
+                    #print("\nTaking initial photos25")
                     img_rgb = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2RGB)
+                #print("\nTaking initial photos26")
 
                 self.imageScene = img_rgb
                 self.imageDepthCamera = responses[0]
@@ -219,6 +233,7 @@ class controller:
                 imageDepthBack = airsim.list_to_2d_float_array(responses[3].image_data_float,
                                                            responses[3].width,
                                                            responses[3].height)
+                #print("\nTaking initial photos27")
                 self.imageDepthBack = imageDepthBack
 
                 self.imageDepthPeripheralWidth = responses[3].width
@@ -233,6 +248,7 @@ class controller:
                     cv2.imwrite(os.path.normpath(filenameScene + '.png'), img_rgb) # write to png
 
                 # if code reach here, we should break the loop
+                print(f"\nFinished taking photos from {self.getName()}.")
                 break
             except:
                 pass
@@ -320,6 +336,7 @@ class controller:
 
         responses = self.client.simGetImages([
             airsim.ImageRequest("1", airsim.ImageType.DepthPerspective, True)],
+            #airsim.ImageRequest("front_right_custom", airsim.ImageType.DepthPerspective, True)],
             vehicle_name = self.name)  #scene vision image in uncompressed RGB array
 
         self.imageDepthFront = responses[0]
@@ -330,6 +347,7 @@ class controller:
         #TODO: replace simGetImages with self.getImages -> save depth image
         responses = self.client.simGetImages([
             airsim.ImageRequest("0", airsim.ImageType.DepthPerspective, True)],
+            #airsim.ImageRequest("front_center_custom", airsim.ImageType.DepthPerspective, True)],
             vehicle_name = self.name)  #scene vision image in uncompressed RGB array
 
         self.imageDepthCamera = responses[0]
@@ -1313,6 +1331,11 @@ class controller:
             return self.detectionsInfo[-1]
         else:
             return self.detectionsInfo[index]
+
+
+    def reconnect(self):
+        self.client.enableApiControl(True, self.name)
+        self.client.armDisarm(True, self.name)
 
 
     def quit(self):

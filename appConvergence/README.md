@@ -1,57 +1,33 @@
-# Autonomous and cooperative design of the monitor positions for a team of UAVs to maximize the quantity and quality of detected objects #
+# Autonomous and cooperative design of the monitor positions for a team of UAVs to maximize the quantity and quality of detected objects (VAN2V: Team 11 Implementation)#
 
-This project deals with the problem of positioning a swarm of UAVs inside a completely unknown terrain, having as objective to maximize the overall situational awareness.
+This code is a modification of the code in https://github.com/dimikout3/ConvCAOAirSim presented in for the VNA2V class. Only small modifications were made to the present code
+ 
+# Installation (VNA2V: appConvergence only)#
 
-Example:
-![RA-L_mainFigure](http://kapoutsis.info/wp-content/uploads/2020/02/RA-L_mainFigure.png)
-
-[![Video demonstration](http://kapoutsis.info/wp-content/uploads/2020/02/video_thumbnail.png)](https://www.youtube.com/watch?v=L8ycmS20rZs)
-
-[AirSim platform](https://github.com/microsoft/AirSim) was utilized to evaluate the perfmance of the swarm. 
-
-The implemented algorithm is not specifically tailored to the dynamics of either UAVs or the environment, instead, it learns, from the real-time images, exactly the most effective formations of the swarm for the underlying monitoring task. Moreover, and to be able to evaluate at each iteration the swarm formation, images from the UAVs are fed to a novel computation scheme that assigns a single scalar score, taking into consideration the number and quality of all unique objects of interest.
-
-# Installation #
-
-The ConvCAO_AirSim repository contains the following applications:
-- MultiAgent: Positioning a swarm of UAVs inside a completely unknown terrain, having as objective to maximize the overall situational awareness.
-- appExhaustiveSearch: Centralized, semi-exhaustive methodology.
-- appHoldLine: A rather simple problem (toy-problem), where the robots should be deployed in a specific formation (line).
-- appLinux: Implementation for working on Linux OS.
-- appNavigate: Navigating a UAV swarm on a predetermined path.
-
-This section provides a step-by-step guide for installing the ConvCAO_AirSim framework.
-
-### Dependencies
-
-First, install the required system packages 
-(NOTE: the majority of the experiments we have concluded are done in a conda enviroment, therefore we stongly advise you to download and install a conda virtual enviroment):
+### 1. Dependencies
+First, install the required system packages
+(NOTE: the majority of the experiments were conducted in a conda enviroment, therefore we stongly advise you to download and [install](https://docs.conda.io/projects/conda/en/latest/user-guide/install/) a conda virtual enviroment) (VNA2V: Note that this code required python 3. Creating a conda environmanet is especially helpful if some of your own code uses python 2.7):
 ```
-$ pip install airsim Shapely descartes opencv-contrib-python=4.1.26
+$ pip install airsim Shapely descartes opencv-contrib-python
 ```
 
-### Detector
-In our experiments we are using a YOLOv3 detector, trained on the [COCO dataset](http://cocodataset.org/#home). However, you can utilize a different detector (tailored to the application needs) and our methodology will still be capable of delivering an optimized set of UAVs’ monitor positions, adapting to the detector’s specific characteristics. [Download](https://convcao.hopto.org/index.php/s/mh8WIDpprE70SO3) the pretrained detector we are using and copy the yolo-coco folder inside your ConvCAO_AirSim path.
+### 2. Detector
+Second, you have to define a detector capable of producing bounding boxes of objects along with the corresponding confidences levels from RGB images.
 
-### Enviroments
-Download any of the available [AirSim Enviroments](https://github.com/microsoft/AirSim/releases)
+For the needs of our application we utilized YOLOv3 detector, trained on the [COCO dataset](http://cocodataset.org/#home). You can download this detector from [here](https://convcao.hopto.org/index.php/s/mh8WIDpprE70SO3). After downloading the file, extract the yolo-coco folder inside your local ConvCao_AirSim folder.
 
-### Run Example
-Lastly, you can have an illustrative example by running the "MultiAgent.py" script in the ConvCAO_AirSim folder, simply add the path "detector-path":"path-to-your-detector-folder" to the detector folder in the "appSettings.json". Detailed Instructions for running specific applications are inside every corresponding app folder
+It is worth highlighting that, you could use a deifferent detector (tailored to the application needs), as the proposed methodology is agnostic as far the detector's choise is concerned.
+
+### 3. Enviroments
+Download any of the available [AirSim Enviroments](https://github.com/microsoft/AirSim/releases) (VNA2V: We have tested the AirSimNH environment)
+
+### 4. Run Example
+To run an example with the Convergence testbed you need to just replace the "detector-path" entry - inside this [file](https://github.com/dimikout3/ConvCAO_AirSim/blob/master/appConvergence/appSettings.json) - with your path to the previously downloaded detector. (VNA2V: The yolo-coco file is already set in the main directory)
+
+Finally run the "MultiAgent.py" script:
 ```
 $ python MultiAgent.py
 ```
+Detailed instructions for running specific applications are inside every corresponding app folder
 
-
-# 3D Reconstruction #
-Combining the information extracted from the Depth Image and the focal length of the camera we can recreate the 3D percepective for each UAV
-<p align="center">
-  <img width="712" height="400" src="toGiF.gif">
-</p>
-
-# Combined 3D Reconstruction #
-Combining the aforementioned 3D reconstruction of each UAV we can generate the a point cloud for the whole enviroment 
-<p align="center">
-  <img width="712" height="400" src="combined.gif">
-</p>
-
+(VNA2V: run "python MultiAgentMod.py --waypoints 50" wittin the AppConvergence directory so that the code runs for 50 iterations. Other options are available within the file. Before running this python file, make sure to have your environment already running)

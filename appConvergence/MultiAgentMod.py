@@ -28,7 +28,7 @@ if os.name == 'nt':
 else:
     settingsDir = r"/home/" + os.getlogin() + "/Documents/AirSim"
     envDir = r"/home/" + os.getlogin() + "/Downloads/Neighborhood/AirSimNH.sh"
-    call = f"{envDir}"
+    call = f"{envDir} -ResX=640 -ResY=480 -windowed"
 
 # Loading App settings from json file
 appSettings = json.load(open('appSettings.json','r'))
@@ -732,14 +732,23 @@ if __name__ == "__main__":
 
     generatingResultsFolders()
 
-    fillTemplate()
+    #fillTemplate()
 
-    launchAirSim()
+    #launchAirSim()
 
     wayPointsSize = options.waypoints
 
+    #OFFSETS = {"UAV1":[0,0,0],
+    #           "UAV2":[0,-5,0],
+    #          }
+    #OFFSETS = {"UAV1":[0,0,0],
+    #           "UAV2":[0,-5,0],
+    #           "UAV3":[-5,0,0],
+    #          }
     OFFSETS = {"UAV1":[0,0,0],
                "UAV2":[0,-5,0],
+               "UAV3":[-5,0,0],
+               "UAV4":[-5,-5,0],
               }
 
     dronesID = list(OFFSETS.keys())
@@ -767,6 +776,9 @@ if __name__ == "__main__":
         t = ctrl.takeOff()
         tasks.append(t)
     for t in tasks: t.join()
+    
+    #for ctrl in controllers:
+    #    ctrl.reconnect()
 
     print("\nLifting all drones to specified Z altitude")
     tasks = []
@@ -776,12 +788,18 @@ if __name__ == "__main__":
         t = ctrl.moveToZ(intialAlt + stepAlt*i,2)
         tasks.append(t)
     for t in tasks: t.join()
+    
+    #for ctrl in controllers:
+    #    ctrl.reconnect()
 
     print("\nSetting Geo Fence for all drones")
     for ctrl in controllers:
         # no need for task list (just setting values here)
         ctrl.setGeoFence(x = fenceX, y = fenceY, z = fenceZ, r=fenceR)
-
+    
+    #for ctrl in controllers:
+    #    ctrl.reconnect()
+    
     print("\nTaking initial photos")
     for ctrl in controllers:
         # no need for task list (just setting values here)
@@ -789,6 +807,7 @@ if __name__ == "__main__":
 
     # collisionCorrectionThread = Thread(target = collisionCorrection)
     # collisionCorrectionThread.start()
+    print("\nFinished taking initial photos")
 
     startTime = time.time()
 
@@ -887,7 +906,7 @@ if __name__ == "__main__":
     for ctrl in controllers: ctrl.quit()
     client.reset()
 
-    print(f"\n[KILLING|AIRSIM] closing CityEnviron.exe")
-    killAirSim()
+    #print(f"\n[KILLING|AIRSIM] closing CityEnviron.exe")
+    #killAirSim()
 
     print(f"\n --- elapsed time:{startTime - time.time():.2f} [sec] ---")

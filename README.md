@@ -1,35 +1,14 @@
-# Autonomous and cooperative design of the monitor positions for a team of UAVs to maximize the quantity and quality of detected objects #
+# Autonomous and cooperative design of the monitor positions for a team of UAVs to maximize the quantity and quality of detected objects (VAN2V: Team 11 Implementation)#
 
-This project deals with the problem of positioning a swarm of UAVs inside a completely unknown terrain, having as objective to maximize the overall situational awareness.
-
-Example:
-![RA-L_mainFigure](http://kapoutsis.info/wp-content/uploads/2020/02/RA-L_mainFigure.png)
-
-[![Video demonstration](http://kapoutsis.info/wp-content/uploads/2020/02/video_thumbnail.png)](https://www.youtube.com/watch?v=L8ycmS20rZs)
-
-[AirSim platform](https://github.com/microsoft/AirSim) was utilized to evaluate the perfmance of the swarm.
-
-The implemented algorithm is not specifically tailored to the dynamics of either UAVs or the environment, instead, it learns, from the real-time images, exactly the most effective formations of the swarm for the underlying monitoring task. Moreover, and to be able to evaluate at each iteration the swarm formation, images from the UAVs are fed to a novel computation scheme that assigns a single scalar score, taking into consideration the number and quality of all unique objects of interest.
-
-The following video is a presentation of our work
-
-[![](http://img.youtube.com/vi/C53Gsex-op8/0.jpg)](http://www.youtube.com/watch?v=C53Gsex-op8 "")
-
-# Installation #
-
-The ConvCAO_AirSim repository contains the following applications:
-- [appConvergence](https://github.com/dimikout3/ConvCAO_AirSim/tree/master/appConvergence): Positioning a swarm of UAVs inside a completely unknown terrain, having as objective to maximize the overall situational awareness.
-- [appExhaustiveSearch](https://github.com/dimikout3/ConvCAO_AirSim/tree/master/appExhaustiveSearch): Centralized, semi-exhaustive methodology.
-- [appLinux](https://github.com/dimikout3/ConvCAO_AirSim/tree/master/appLinux): Implementation for working on Linux OS.
-- [appNavigate](https://github.com/dimikout3/ConvCAO_AirSim/tree/master/appNavigate): Navigating a UAV swarm on a predetermined path.
-
-This section provides a step-by-step guide for installing the ConvCAO_AirSim framework.
+This code is a modification of the code in https://github.com/dimikout3/ConvCAOAirSim presented in for the VNA2V class. Only small modifications were made to the present code
+ 
+# Installation (VNA2V: appConvergence only)#
 
 ### 1. Dependencies
 First, install the required system packages
-(NOTE: the majority of the experiments were conducted in a conda enviroment, therefore we stongly advise you to download and [install](https://docs.conda.io/projects/conda/en/latest/user-guide/install/) a conda virtual enviroment):
+(NOTE: the majority of the experiments were conducted in a conda enviroment, therefore we stongly advise you to download and [install](https://docs.conda.io/projects/conda/en/latest/user-guide/install/) a conda virtual enviroment) (VNA2V: Note that this code required python 3. Creating a conda environmanet is especially helpful if some of your own code uses python 2.7):
 ```
-$ pip install airsim Shapely descartes opencv-contrib-python=4.1.26
+$ pip install airsim Shapely descartes opencv-contrib-python
 ```
 
 ### 2. Detector
@@ -40,10 +19,10 @@ For the needs of our application we utilized YOLOv3 detector, trained on the [CO
 It is worth highlighting that, you could use a deifferent detector (tailored to the application needs), as the proposed methodology is agnostic as far the detector's choise is concerned.
 
 ### 3. Enviroments
-Download any of the available [AirSim Enviroments](https://github.com/microsoft/AirSim/releases)
+Download any of the available [AirSim Enviroments](https://github.com/microsoft/AirSim/releases) (VNA2V: We have tested the AirSimNH environment)
 
 ### 4. Run Example
-To run an example with the Convergence testbed you need to just replace the "detector-path" entry - inside this [file](https://github.com/dimikout3/ConvCAO_AirSim/blob/master/appConvergence/appSettings.json) - with your path to the previsously downloaded detector.
+To run an example with the Convergence testbed you need to just replace the "detector-path" entry - inside this [file](https://github.com/dimikout3/ConvCAO_AirSim/blob/master/appConvergence/appSettings.json) - with your path to the previously downloaded detector. (VNA2V: The yolo-coco file is already set in the main directory)
 
 Finally run the "MultiAgent.py" script:
 ```
@@ -51,15 +30,4 @@ $ python MultiAgent.py
 ```
 Detailed instructions for running specific applications are inside every corresponding app folder
 
-
-# 3D Reconstruction #
-Combining the information extracted from the Depth Image and the focal length of the camera we can recreate the 3D percepective for each UAV
-<p align="center">
-  <img width="712" height="400" src="Videos/toGiF.gif">
-</p>
-
-# Combined 3D Reconstruction #
-Combining the aforementioned 3D reconstruction of each UAV we can generate the a point cloud for the whole enviroment
-<p align="center">
-  <img width="712" height="400" src="Videos/combined.gif">
-</p>
+(VNA2V: run "python MultiAgentMod.py --waypoints 50" wittin the AppConvergence directory so that the code runs for 50 iterations. Other options are available within the file. Before running this python file, make sure to have your environment already running)
