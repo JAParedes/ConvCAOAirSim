@@ -4,6 +4,6 @@ This code is a modification of the code in https://github.com/dimikout3/ConvCAOA
 
 This repository is maintained by Juan Paredes, Steven Hong, Brian Lai, and Vishnu Chipade.
  
-This project deals with the project of positioning a swarm of UAVs inside a completely unknown envirnments with the objective to increase the situational awareness. Situational awareness is expressed by the number and quality of detected objects. This work has many applications in robotics field, such as traffic monitoring, border surveillance, search and rescue, etc. The team used YOLOv3 detector to extract the unique objects from RGB-D cameras carried by the UAVs.
+This project deals with the project of positioning a swarm of UAVs inside a completely unknown envirnments with the objective to increase the situational awareness. Situational awareness is expressed by the number and quality of detected objects. This work has many applications in robotics field, such as traffic monitoring, border surveillance, search and rescue, etc. The original approach used YOLOv3 detector to extract the unique objects from RGB-D cameras carried by the UAVs, while the group approach used the YOLOv4 detector for this purpose.
 
 Installation instructions are available in the appConvergence (modified original code) and the GroupApproach (Team 11 implementation) directories.
