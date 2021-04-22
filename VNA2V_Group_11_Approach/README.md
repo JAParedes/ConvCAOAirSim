@@ -15,7 +15,7 @@ $ pip install airsim Shapely descartes opencv-contrib-python
 Remember that the code requires python 3
 
 ### 2. Darknet
-Clone the [Darknet](https://github.com/AlexeyAB/darknet) repository and run the "make" command to build darknet. Make sure to set "LIBSO=1" in the Makefile (it may be initially "LIBSO=1"). Then, create the "weights" directory in the cloned repo and download the [yolov4.weights](https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights) inside it.
+Clone the [Darknet](https://github.com/AlexeyAB/darknet) repository and run the "make" command to build darknet. Make sure to set "LIBSO=1" in the Makefile (it may be initially "LIBSO=0"). Then, create the "weights" directory in the cloned repo and download the [yolov4.weights](https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights) inside it.
 
 ### 3. Environments
 Download any of the available [AirSim Enviroments](https://github.com/microsoft/AirSim/releases). 
