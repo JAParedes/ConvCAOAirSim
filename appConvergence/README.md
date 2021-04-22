@@ -2,6 +2,8 @@
  
 # Installation (appConvergence) #
 
+NOTE: These instructions have only been verified by the group in Ubuntu 18.
+
 ### 0. Create a conda virtual environment (optional)
 A conda environment can be helpful when running this code, specially if you use different versions of python. Download and [install](https://docs.conda.io/projects/conda/en/latest/user-guide/install/) conda and create and environent with python 3 installed, as mentioned [here](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html). For all the next operations, make sure to activate the conda environment yuo create.
 
@@ -19,14 +21,27 @@ For the needs of our application we utilized YOLOv3 detector, trained on the [CO
 
 Note that the code can be modified to work with other detectors.
 
-### 3. Enviroments
+Make sure to replace the "detector-path" entry in the appSettings.json file with the absolute path to the previously downloaded detector (should be inside the yolo-coco folder).
+
+### 3. Environments
 Download any of the available [AirSim Enviroments](https://github.com/microsoft/AirSim/releases). 
 
 ### 4. Run Example
-To run the "MultiAgentMod.py" script, you need to replace the "detector-path" entry in the appSettings.json file with the path to the previously downloaded detector (should be inside the yolo-coco folder, as per 2.)
+To run the "MultiAgentMod.py" script, first, you need a "settings.json" file in the ~/Documents/AirSim directory to set up the simulation settings. Some example settings files are available in the settings/appConvergence_Settings file in the current repository for flying 2, 3, and 4 drones simultaneously. You may copy any of these files to the ~/Documents/AirSim directory and rename them as "settings.json".
 
-Finally, in another terminal run the "MultiAgentMod.py" script:
+Next, within the "MultiAgentMod.py" in line 741, make sure the OFFSETS dictionary has a key corresponding to the name of each drone in your "settings.json" file (don't include GlobalHawk) and that their corresponding initial positions array is included as well and matchs the one in "settings.json".
+
+Go to the directory containing the environment you downloaded in 3. It should have a .sh script. For example, for the AirSimNH environment, there should be a AirSimNH.sh file. Open a terminal in that folder and run
+```
+$ ./AirSimNH.sh -ResX=640 -ResY=480 -windowed
+```
+which should run the environment in a 640 by 480 window. In case you encounter issues with Vulkan, you may need to run 
+```
+sudo apt install mesa-vulkan-drivers
+```
+
+Finally, in another terminal (after activating the conda environment if you created one) run the "MultiAgentMod.py" script:
 ```
 $ python MultiAgentMod.py --waypoints 50
 ```
-Detailed instructions for running specific applications are inside every corresponding app folder
+where waypoints determines the number of iterations of the program. Other options are available withing the python script.Your data will be saved in the results_1 folder.

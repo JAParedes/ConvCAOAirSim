@@ -296,7 +296,7 @@ if __name__ == "__main__":
     # nav = OrbitNavigator(args.radius, args.altitude, args.speed, args.iterations, args.center.split(','), args.snapshots)
     #nav.start()
     
-    nDrones = 3
+    nDrones = 4
     altitude = 20
     # connect to the AirSim simulator
     client = airsim.MultirotorClient()

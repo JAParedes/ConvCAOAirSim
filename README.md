@@ -6,4 +6,4 @@ This repository is maintained by Juan Paredes, Steven Hong, Brian Lai, and Vishn
  
 This project deals with the project of positioning a swarm of UAVs inside a completely unknown envirnments with the objective to increase the situational awareness. Situational awareness is expressed by the number and quality of detected objects. This work has many applications in robotics field, such as traffic monitoring, border surveillance, search and rescue, etc. The original approach used YOLOv3 detector to extract the unique objects from RGB-D cameras carried by the UAVs, while the Group 11 approach used the YOLOv4 detector for this purpose.
 
-Installation instructions are available in the appConvergence (modified original code) and the VNA2V_Group_11_Approach (Team 11 implementation) directories.
+Installation instructions are available in README files inside the appConvergence (modified original code) and the VNA2V_Group_11_Approach (Team 11 implementation) directories.
